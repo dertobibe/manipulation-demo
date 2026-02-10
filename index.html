@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detection + Manipulation Demo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,500;0,9..40,700;1,9..40,300&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #12121a;
+      --surface-elevated: #1a1a26;
+      --border: #2a2a3a;
+      --text: #e8e8f0;
+      --text-muted: #8888a0;
+      --accent: #6366f1;
+      --accent-glow: rgba(99, 102, 241, 0.15);
+      --success: #34d399;
+      --warning: #fbbf24;
+      --mono: 'Space Mono', monospace;
+      --sans: 'DM Sans', sans-serif;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Subtle grid background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 60px 24px;
+    }
+
+    /* Header */
+    .header {
+      margin-bottom: 48px;
+    }
+
+    .header__label {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+
+    .header__title {
+      font-size: clamp(28px, 5vw, 42px);
+      font-weight: 700;
+      line-height: 1.15;
+      margin-bottom: 12px;
+    }
+
+    .header__subtitle {
+      font-size: 17px;
+      color: var(--text-muted);
+      font-weight: 300;
+      line-height: 1.6;
+    }
+
+    /* Detection Card */
+    .detection-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 36px;
+      margin-bottom: 32px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .detection-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    }
+
+    .detection-card__status {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .status-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--success);
+      box-shadow: 0 0 8px var(--success);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    .status-dot--unknown {
+      background: var(--warning);
+      box-shadow: 0 0 8px var(--warning);
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .status-label {
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .company-name {
+      font-size: clamp(24px, 4vw, 36px);
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: var(--text);
+    }
+
+    .company-name--b2b {
+      color: var(--accent);
+    }
+
+    .company-detail {
+      font-size: 14px;
+      color: var(--text-muted);
+      font-weight: 300;
+    }
+
+    /* Data Grid */
+    .data-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 32px;
+    }
+
+    .data-cell {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+    }
+
+    .data-cell__label {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+    }
+
+    .data-cell__value {
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    /* Personalized Content Section */
+    .personalized-section {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 36px;
+      margin-bottom: 32px;
+    }
+
+    .personalized-section__label {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    .personalized-section__title {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .personalized-section__text {
+      font-size: 15px;
+      color: var(--text-muted);
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+    /* CTA area */
+    .cta-area {
+      background: var(--surface-elevated);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 36px;
+      text-align: center;
+    }
+
+    .cta-area__title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .cta-area__text {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    .cta-button {
+      display: inline-block;
+      padding: 12px 32px;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-family: var(--sans);
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+    }
+
+    .cta-button:hover {
+      filter: brightness(1.15);
+      transform: translateY(-1px);
+    }
+
+    /* Debug footer */
+    .debug-footer {
+      margin-top: 48px;
+      padding: 20px;
+      background: var(--surface);
+      border: 1px dashed var(--border);
+      border-radius: 12px;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.8;
+    }
+
+    .debug-footer code {
+      color: var(--accent);
+    }
+
+    /* Animation */
+    .fade-in {
+      animation: fadeIn 0.6s ease-out both;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .delay-1 { animation-delay: 0.1s; }
+    .delay-2 { animation-delay: 0.2s; }
+    .delay-3 { animation-delay: 0.3s; }
+    .delay-4 { animation-delay: 0.4s; }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- Header -->
+    <div class="header fade-in">
+      <div class="header__label">Live Demo</div>
+      <h1 class="header__title">Detection & Manipulation</h1>
+      <p class="header__subtitle">
+        We detected your company-context and demonstrate content-manipulation on the edge.
+      </p>
+    </div>
+
+    <!-- Detection Card — Worker injects content here -->
+    <div class="detection-card fade-in delay-1">
+      <div class="detection-card__status">
+        <!--DETECTION_STATUS_DOT-->
+        <span class="status-label" id="status-label"><!--DETECTION_STATUS_LABEL--></span>
+      </div>
+      <div class="company-name" id="company-name"><!--DETECTION_COMPANY_NAME--></div>
+      <div class="company-detail" id="company-detail"><!--DETECTION_COMPANY_DETAIL--></div>
+    </div>
+
+    <!-- Data Grid -->
+    <div class="data-grid fade-in delay-2">
+      <div class="data-cell">
+        <div class="data-cell__label">IP-Adresse</div>
+        <div class="data-cell__value" id="visitor-ip"><!--VISITOR_IP--></div>
+      </div>
+      <div class="data-cell">
+        <div class="data-cell__label">ISP / Organisation</div>
+        <div class="data-cell__value" id="visitor-org"><!--VISITOR_ORG--></div>
+      </div>
+      <div class="data-cell">
+        <div class="data-cell__label">Standort</div>
+        <div class="data-cell__value" id="visitor-location"><!--VISITOR_LOCATION--></div>
+      </div>
+      <div class="data-cell">
+        <div class="data-cell__label">AS-Nummer</div>
+        <div class="data-cell__value" id="visitor-asn"><!--VISITOR_ASN--></div>
+      </div>
+    </div>
+
+    <!-- Personalized Content — Worker swaps this based on detection -->
+    <div class="personalized-section fade-in delay-3">
+      <div class="personalized-section__label">Personalisierter Inhalt</div>
+      <h2 class="personalized-section__title" id="personalized-title"><!--PERSONALIZED_TITLE--></h2>
+      <p class="personalized-section__text" id="personalized-text"><!--PERSONALIZED_TEXT--></p>
+    </div>
+
+    <!-- CTA — Worker can swap this too -->
+    <div class="cta-area fade-in delay-4">
+      <h3 class="cta-area__title" id="cta-title"><!--CTA_TITLE--></h3>
+      <p class="cta-area__text" id="cta-text"><!--CTA_TEXT--></p>
+      <a href="#" class="cta-button" id="cta-button"><!--CTA_BUTTON--></a>
+    </div>
+
+    <!-- Debug -->
+    <div class="debug-footer fade-in delay-4">
+      <strong>Debug Info (nur für Demo)</strong><br>
+      Erkennungsmethode: <code>Reverse IP via ip-api.com → Cloudflare Worker HTMLRewriter</code><br>
+      Klassifizierung: <code id="debug-classification"><!--DEBUG_CLASSIFICATION--></code><br>
+      Verarbeitungszeit: <code id="debug-timing"><!--DEBUG_TIMING--></code>
+    </div>
+
+  </div>
+</body>
+</html>
