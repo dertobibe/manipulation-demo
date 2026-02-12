@@ -1,0 +1,73 @@
+/* STIHL Contraface Digital fonts */
+@font-face {
+  font-family: STIHL Contraface Digital Display Title;
+  font-weight: 400; font-style: normal; font-display: swap;
+  src: url(STIHLContrafaceDigitalDisplayTitling.woff2) format("woff2");
+}
+@font-face {
+  font-family: STIHL Contraface Digital Text Bold;
+  font-weight: 400; font-style: normal; font-display: swap;
+  src: url(STIHLContrafaceDigitalText-Bold.woff2) format("woff2");
+}
+@font-face {
+  font-family: STIHL Contraface Digital Text Regular;
+  font-weight: 400; font-style: normal; font-display: swap;
+  src: url(STIHLContrafaceDigitalText.woff2) format("woff2");
+}
+@font-face {
+  font-family: STIHL Contraface Digital Text Demi;
+  font-weight: 400; font-style: normal; font-display: swap;
+  src: url(STIHLContrafaceDigitalTextDemi.woff2) format("woff2");
+}
+
+/* STIHL Contraface (hyphenated) fonts */
+@font-face {
+  font-family: 'STIHL-Contraface-Display-Medium';
+  font-display: swap;
+  src: url(STIHLContrafaceDisplayMedium.woff2) format("woff2");
+}
+@font-face {
+  font-family: 'STIHL-Contraface-Display-Title';
+  font-display: swap;
+  src: url(STIHLContrafaceDisplayTitling.woff2) format("woff2");
+}
+@font-face {
+  font-family: 'STIHL-Contraface-Text';
+  font-display: swap;
+  src: url(STIHLContrafaceText.woff2) format("woff2");
+}
+@font-face {
+  font-family: 'STIHL-Contraface-Text';
+  font-weight: bold; font-display: swap;
+  src: url(STIHLContrafaceText-Bold.woff2) format("woff2");
+}
+@font-face {
+  font-family: 'STIHL-Contraface-Text';
+  font-weight: bold; font-style: italic; font-display: swap;
+  src: url(STIHLContrafaceText-BoldItalic.woff2) format("woff2");
+}
+@font-face {
+  font-family: 'STIHL-Contraface-Text';
+  font-style: italic; font-display: swap;
+  src: url(STIHLContrafaceText-Italic.woff2) format("woff2");
+}
+@font-face {
+  font-family: 'STIHL-Contraface-Text-Demi';
+  font-display: swap;
+  src: url(STIHLContrafaceTextDemi.woff2) format("woff2");
+}
+@font-face {
+  font-family: 'STIHL-Contraface-Text-Demi';
+  font-style: italic; font-display: swap;
+  src: url(STIHLContrafaceTextDemi-Italic.woff2) format("woff2");
+}
+@font-face {
+  font-family: 'STIHL-Contraface-Text-Light';
+  font-display: swap;
+  src: url(STIHLContrafaceTextLight.woff2) format("woff2");
+}
+@font-face {
+  font-family: 'STIHL-Contraface-Text-Light';
+  font-style: italic; font-display: swap;
+  src: url(STIHLContrafaceTextLight-Italic.woff2) format("woff2");
+}
